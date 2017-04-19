@@ -332,7 +332,7 @@ public class Interno implements IInterno {
 		return null;
 	}
 
-	private Tabela getTabela(String nomeBanco, String nomeTabela) throws IOException {
+	public Tabela getTabela(String nomeBanco, String nomeTabela) throws IOException {
 		ArrayList<Coluna> colunas = new ArrayList<Coluna>();
 		File tableDirectory = new File(path + nomeBanco + File.separator + nomeTabela);
 		// necessários para ler o arquivo
