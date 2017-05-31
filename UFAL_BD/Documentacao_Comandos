@@ -1,0 +1,153 @@
+Este documento irá detalhar os comandos possíveis e respostas esperadas.
+
+O módulo externo é responsável por toda a execução deste projeto. Basta instanciar um objeto do tipo Externo e executar alguma
+das 3 instruções possíveis: executarDDL, executarDMLInstrucao e executarDMLConsulta.
+
+
+executarDDL:
+	Os comandos válidos são: 'construir_bd', 'destruir_bd', 'construir_tb' e 'destruir_tb'. Ao executar um comando inválido, o 
+	usuário	é informado dos comandos válidos. Ao inserir exatamente 'construir_bd', 'destruir_bd', 'construir_tb' ou 
+	'destruir_tb', o usuário visualiza os padrões reconhecidos para o comando inserido.
+
+	construir_bd:
+		Padrão: 'construir_bd nomeBanco'
+			Constrói o banco de dados nomeBanco.
+			O nome não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', '<', '>', '|'.
+
+	destruir_bd:
+		Padrão: 'destruir_bd nomeBanco'
+			Destrói o banco de dados nomeBanco.
+			O nome não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', '<', '>', '|'.
+
+	construir_tb:
+		Padrão: 'construir_tb nomeBanco nomeTabela(nomeColuna1:tipoDado,nomeColuna2:tipoDado,...)'
+			Cria a tabela nomeTabela no banco de dados nomeBanco.
+			Os valores válidos para tipoDado são: 1(texto), 2(número), 3(data) e 4(bytes). Todo e qualquer ')' será removido 
+			dos	nomes de coluna.
+			O nome do banco de dados e/ou da tabela não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', 
+			'<', '>', '|'.
+		
+	destruir_tb:
+		Padrão: 'destruir_tb nomeBanco nomeTabela'
+			Destrói a tabela nomeTabela no banco de dados nomeBanco.
+			O nome do banco de dados e/ou da tabela não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', 
+			'<', '>', '|'.
+
+
+executarDMLInstrucao:
+	Os comandos válidos são: 'adicionar' e 'remover'. Ao executar um comando inválido, o usuário é informado dos comandos 
+	válidos. Ao inserir exatamente 'adicionar' ou 'remover', o usuário visualiza os padrões reconhecidos para o comando inserido.
+	
+	adicionar:
+		Padrão: 'adicionar nomeBanco nomeTabela(valor,valor,...)'
+			Adiciona uma tupla à tabela nomeTabela no banco de dados nomeBanco. A quantidade de valores em parênteses deve ser
+			igual à quantidade de colunas na tabela nomeTabela. O primeiro valor irá para a primeira coluna, o segundo valor 
+			para a segunda coluna e assim por diante.
+			Todo e qualquer ')' será removido dos valores. Deve existir somente 01 '(' na instrução.
+			O nome do banco de dados e/ou da tabela não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', 
+			'<', '>', '|'.
+		
+	remover:
+		Padrão: 'remover nomeBanco nomeTabela(nomeColuna:op:valor)'
+			Remove as tuplas da tabela nomeTabela no banco de dados nomeBanco que satisfaçam a condição. A condição irá checar
+			a coluna nomeColuna de todas as tuplas da tabela e comparar, de acordo com o operador op, o valor da tupla com valor.
+			
+		Padrão: 'remover nomeBanco nomeTabela(nomeColuna:op:valor,lg,nomeColuna:op:valor)'
+			Remove as tuplas da tabela nomeTabela no banco de dados nomeBanco que satisfaçam uma condição composta por duas 
+			condições. A condição irá checar a coluna nomeColuna de todas as tuplas da tabela e comparar, de acordo com o 
+			operador op, o valor da tupla com valor. O operador lógico lg liga as duas condições da condição composta.
+			
+			Os valores válidos para o operador(op) são: 1(=), 2(!=), 3(<), 4(<=), 5(>) e 6(>=).
+				Tratando-se de TEXTO ou BYTES, os operadores 1 e 2 irão comparar se os valores são iguais ou diferentes, 
+				respectivamente. Os operadores 3, 4, 5 e 6 irão comparar o tamanho do TEXTO ou BYTES.
+			
+			Os valores válidos para o operador lógico(lg) são: 1(AND) e 2(OR).
+			Todo e qualquer ')' será removido da(s) condição(ções). Deve existir somente 01 '(' na instrução.
+			O nome do banco de dados e/ou da tabela não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', 
+			'<', '>', '|'.
+
+
+executarDMLConsulta:
+	Os comandos válidos são: 'buscar'. Ao executar um comando inválido, o usuário é informado dos comandos válidos. Ao inserir 
+	exatamente 'buscar', o usuário visualiza os padrões reconhecidos para o comando inserido.
+	
+	buscar:
+		Padrão: 'buscar nomeBanco nomeTabela()'
+			Retorna um objeto do tipo TabelaConsulta com a tabela nomeTabela do banco de dados nomeBanco.
+		
+		Padrão: 'buscar nomeBanco nomeTabela(nomeColuna;nomeColuna;...)'
+			Retorna um objeto do tipo TabelaConsulta com a tabela nomeTabela do banco de dados nomeBanco, porém, contendo somente
+			as colunas nomeColuna informadas.
+			
+		Padrão: 'buscar nomeBanco nomeTabela(nomeColuna:op:valor)'
+			Retorna um objeto do tipo TabelaConsulta com a tabela nomeTabela do banco de dados nomeBanco. Só estarão contidas as
+			tuplas que satisfaçam a condição. A condição irá checar a coluna nomeColuna de todas as tuplas da tabela e comparar, 
+			de acordo com o operador op, o valor da tupla com valor.
+		
+		Padrão: 'buscar nomeBanco nomeTabela(nomeColuna:op:valor,lg,nomeColuna:op:valor)'
+			Retorna um objeto do tipo TabelaConsulta com a tabela nomeTabela do banco de dados nomeBanco. Só estarão contidas as
+			tuplas que satisfaçam uma condição composta por duas condições. A condição irá checar a coluna nomeColuna de todas 
+			as tuplas da tabela e comparar, de acordo com o operador op, o valor da tupla com valor. O operador lógico lg liga as 
+			duas condições da condição composta.
+
+			O nome do banco de dados e/ou da tabela não pode conter os seguintes caracteres: '\', '/', ':', '*', '?', '"', 
+			'<', '>', '|'.
+			Os valores válidos para o operador(op) são: 1(=), 2(!=), 3(<), 4(<=), 5(>) e 6(>=). Os valores válidos para o 
+			operador lógico(lg) são: 1(AND) e 2(OR).
+
+			
+Informações adicionais:
+
+Para imprimir todas as tuplas de um objeto TabelaConsulta (que é retornado pelo comando 'buscar'), basta utilizar a função
+'imprimirTuplascomNomeColuna()' para ver o nome de cada coluna em cada tupla, ou 'imprimirTuplas()' para ver somente os dados.
+
+Exemplo:
+externo.executarDMLConsulta("buscar nomeBanco tabela1()").imprimirTuplascomNomeColuna();
+externo.executarDMLConsulta("buscar nomeBanco tabela1()").imprimirTuplas();
+
+
+
+Copie e cole os comandos abaixo para criar um banco de dados chamado 'nomeBanco' e uma tabela 'tabela1' com as seguintes colunas:
+ID:2
+Nome:1
+Data_Nascimento:3
+Vitórias:2
+Serão inseridos 30 tuplas na tabela.
+
+
+Externo externo = new Externo();
+
+externo.executarDDL("construir_bd nomeBanco");
+
+externo.executarDDL("construir_tb nomeBanco tabela1(ID:2,Nome:1,Data_Nascimento:3,Vitórias:2)");
+
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1269,Ana Beatriz Bárbara Iara,01/07/1992,2)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1364,Letícia Isabella Ana Beatriz,01/07/1978,6)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1328,Ariela Anaísa Sofia Melissa,05/07/1985,5)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1458,Catarina Angelina Catarina Vitória,06/05/1977,0)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1528,Caio Gustavo Vitor,03/06/1982,3)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1398,Estevão Rafael,08/05/2000,6)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1472,Hugo Jonathan Calebe Mateus,01/06/2003,4)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1480,Igor Arthur Daniel,08/06/1952,9)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1532,Benjamin José Aquiles,07/07/2007,9)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1403,Michael Felipe,01/07/1959,10)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1494,Mateus Diogo Tomás Michael,07/07/1998,10)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1294,Nicolas Enzo Gabriel João Vitor,07/07/2006,10)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1386,Estela Isabelly Angelina,01/07/2007,11)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1252,Lucas Lourenço Francisco,07/07/1965,6)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1533,Davi Leandro Fabrício Gustavo,06/07/1992,6)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1410,Bryan Raul Yuri Apólo,03/07/1964,0)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1265,Nicole Sarah Isis Sarah,07/05/1954,10)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1300,Esther Laila Adriana Raquel,01/07/1999,7)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1539,Larissa Jade Anaísa Lívia,08/05/2000,4)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1452,Ariela Esther,05/05/2008,10)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1326,Diogo Augusto,06/06/1977,1)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1481,Vitória Anita,02/05/1971,1)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1390,Dulce Melissa Anaísa,02/07/1981,3)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1331,Rafael Aquiles Guilherme,04/05/1955,1)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1283,Heitor Thiago Pedro,06/05/1963,9)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1254,João Pedro Kevin Davi Lucas,03/06/1959,6)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1273,Yuri João Miguel Gabriel,08/07/1958,5)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1477,Daniela Luana Bianca Natália,07/05/1986,3)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1441,Letícia Isa Alice,01/06/1952,11)");
+externo.executarDMLInstrucao("adicionar nomeBanco tabela1(1540,Isaac Muriel Enzo José,02/06/1976,7)");

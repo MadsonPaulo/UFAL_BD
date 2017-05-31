@@ -7,7 +7,6 @@ package br.ufal.aracomp.ufalbd.conceitual.metamodel;
 public class CondicaoComposta extends Condicao{
 	public static int AND=1;
 	public static int OR=2;
-	public static int NOT=3;
 	
 	private Condicao condicao1;
 	private Condicao condicao2;

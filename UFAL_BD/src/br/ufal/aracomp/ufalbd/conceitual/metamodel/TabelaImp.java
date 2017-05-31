@@ -13,7 +13,7 @@ public class TabelaImp implements Tabela {
 	private String tableName;
 	ArrayList<Coluna> rows;
 
-	TabelaImp(String name, List<Coluna> rows) {
+	public TabelaImp(String name, List<Coluna> rows) {
 		this.tableName = name;
 		this.rows = new ArrayList<>(rows);
 	}
@@ -32,6 +32,16 @@ public class TabelaImp implements Tabela {
 	@Override
 	public List<Coluna> getColunas() {
 		return rows;
+	}
+
+	@Override
+	public int obterIndiceColuna(String nomeColuna) {
+		for (int i = 0; i < rows.size(); i++) {
+			if (rows.get(i).obterNomeColuna().equals(nomeColuna)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }
